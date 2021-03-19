@@ -31,13 +31,15 @@ In a grapth:
     |  StatsD  |---(UDP repeater)--->|  statsd_exporter  |<---(scrape /metrics)---|  Prometheus  |
     +----------+                     +-------------------+                        +--------------+
 
+Also here added Grafana to explore results of 
+
 ## Requirements
 
-* docker >= 1.9.0
-* docker-compose >= 1.5.0
+* docker >= 20.10.0
+* docker-compose >= 1.27.0
 
 ## Run
 
-Just execute the run script:
-
-    $ ./run.sh
+```
+docker-compose up --build
+```

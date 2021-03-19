@@ -1,0 +1,7 @@
+mappings:
+    # usage: test_api_call.product-api.timer./v1/product
+  - match: "collectd.*.metric"
+    name: "test_metric"
+    labels:
+        api_name: "$1"
+        api_endpoint: "$2"

@@ -1,31 +1,40 @@
-statsd_exporter:
-  image: prom/statsd_exporter
-  command: "-statsd.mapping-config=/tmp/statsd_mapping.conf"
-  ports:
-    - "9102:9102"
-    - "9125:9125/udp"
-  volumes:
-    - "./statsd_mapping.conf:/tmp/statsd_mapping.conf"
+version: "3"
+services:
+  statsd_exporter:
+    image: prom/statsd-exporter:v0.20.0
+    command: "--statsd.mapping-config=/tmp/statsd_mapping.yml"
+    ports:
+      - "9102:9102"
+      - "9125:9125/udp"
+    volumes:
+      - "./statsd_mapping.yml:/tmp/statsd_mapping.yml"
 
-prometheus:
-  image: prom/prometheus
-  command: "--config.file=/tmp/prometheus.yml --web.listen-address '0.0.0.0:9090'"
-  ports:
-    - "9090:9090"
-  volumes:
-    - "./prometheus.yml:/tmp/prometheus.yml"
+  prometheus:
+    image: prom/prometheus:v2.25.2
+    command: "--config.file=/tmp/prometheus.yml --web.listen-address '0.0.0.0:9090'"
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus.yml:/tmp/prometheus.yml"
 
-statsd:
-    image: dockerana/statsd
+  statsd:
+    image: statsd/statsd:v0.9.0
     ports:
       - "8125:8125/udp"
       - "8126:8126"
     volumes:
-      - "./statsd_config.js:/src/statsd/config.js"
+      - "./statsd_config.js:/usr/src/app/config.js"
 
-populator:
-    image: tavisto/alpine-bash
+  populator:
+    image: bash:3.0
     user: root
     volumes:
-      - "./populate.sh:/tmp/populate.sh"
-    command: "/tmp/populate.sh 2"
+      - "./populate.sh:/scripts/populate.sh"
+    command: ["bash", "/scripts/populate.sh", "2" ]
+
+  grafana:
+    image: grafana/grafana:6.7.6
+    ports:
+    - "3000:3000"
+    volumes:
+    - /var/lib/grafana

@@ -1,10 +1,7 @@
-(function() {
-    return {
-        // Configuration
-        repeater:[
-            {host: "promstatsd_statsd_exporter_1",
-            port: 9125}
-        ],
-        backends: [ "./backends/repeater" ]
-    };
-})()
+{
+    graphitePort: 2003,
+    graphiteHost: "graphite.example.com",
+    port: 8125,
+    backends: ["./backends/repeater", ],
+    repeater: [{ host: "statsd_exporter", port: 9125 }],
+}
