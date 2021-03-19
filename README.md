@@ -31,7 +31,10 @@ In a grapth:
     |  StatsD  |---(UDP repeater)--->|  statsd_exporter  |<---(scrape /metrics)---|  Prometheus  |
     +----------+                     +-------------------+                        +--------------+
 
-Also here added Grafana to explore results of 
+## Additional containers
+
+- Grafana -- to explore results
+- Populator -- simple metrics generator
 
 ## Requirements
 
